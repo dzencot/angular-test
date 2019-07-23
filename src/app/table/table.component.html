@@ -1,0 +1,38 @@
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th *ngFor="let column of columns" scope="col">
+        {{ column.title }}
+      </th>
+    </tr>
+    <tbody>
+      <tr *ngFor="let user of users">
+        <ng-container *ngFor="let column of columns">
+          <th scope="row" *ngIf="editUserId !== user.id || column.name === 'number'">
+            {{ user[column.name] }}
+          </th>
+          <th scope="row" *ngIf="editUserId === user.id && column.name !== 'number'">
+            <input (input)="onChangeInput(column.name, $event.target.value, user)" value="{{ user[column.name] }}">
+          </th>
+        </ng-container>
+        <button *ngIf="editUserId !== user.id" class="btn btn-primary" (click)="onEdit(user)">Редактировать</button>
+        <button *ngIf="editUserId === user.id" class="btn btn-primary" (click)="onSave(user)">Сохранить</button>
+        <button class="btn btn-primary" (click)="onDelete(user)">Удалить</button>
+      </tr>
+      <tr>
+        <div>
+          <form [formGroup]="checkoutForm" (ngSubmit)="onSubmit(checkoutForm.value)">
+            <ng-container *ngFor="let column of columns">
+              <th scope="row" *ngIf="column.name === 'number'">
+                {{ column.title }}
+              </th>
+              <th scope="row" *ngIf="column.name !== 'number'">
+                <input id="{{ column.name }}" type="{{ column.type }}" formControlName="{{ column.name }}">
+              </th>
+            </ng-container>
+              <button class="btn btn-primary" type="submit">Добавить</button>
+          </form>
+        </div>
+      </tr>
+    </tbody>
+</table>
