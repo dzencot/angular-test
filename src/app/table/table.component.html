@@ -6,7 +6,7 @@
       </th>
     </tr>
     <tbody>
-      <tr *ngFor="let user of users">
+      <tr *ngFor="let user of users" [@fadeInOut]>
         <ng-container *ngFor="let column of columns">
           <th scope="row" *ngIf="editUserId !== user.id || column.name === 'number'">
             {{ user[column.name] }}
@@ -36,3 +36,4 @@
       </tr>
     </tbody>
 </table>
+

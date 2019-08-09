@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { of } from 'rxjs';
 
 const serverUrl = 'http://localhost:8000';
 const httpOptions = {
@@ -18,7 +19,20 @@ export class UsersService {
   ) { }
 
   getUsers() {
-    return this.http.get(serverUrl);
+    const users = [
+      {
+        name: 'test',
+        lastName: 'lastNametest',
+        id: 1,
+      },
+      {
+        name: 'test1',
+        lastName: 'lastNametest1',
+        id: 1,
+      },
+    ];
+    return of(users);
+    // return this.http.get(serverUrl);
   }
 
   deleteUser(user) {
@@ -28,7 +42,7 @@ export class UsersService {
 
   editUser(user) {
     const { id } = user;
-    return this.http.put(`${serverUrl}/${id}`, user, httpOptions);
+    return this.http.patch(`${serverUrl}/${id}`, user, httpOptions);
   }
 
   addUser(user) {
